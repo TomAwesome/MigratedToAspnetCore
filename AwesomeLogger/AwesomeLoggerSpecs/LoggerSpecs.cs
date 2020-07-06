@@ -15,7 +15,7 @@ namespace AwesomeLoggerSpecs
             var mockLogger = new Mock<ILog>();
             mockLogger.Setup(log => log.IsErrorEnabled).Returns(true);
 
-            var logger = new Logger<LoggerSpecs>(mockLogger.Object);
+            var logger = new Logger(mockLogger.Object);
 
             logger.Error("Bad things happened", new Exception());
 

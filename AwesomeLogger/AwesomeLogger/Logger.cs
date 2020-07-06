@@ -3,11 +3,11 @@ using log4net;
 
 namespace AwesomeLogger
 {
-    public class Logger<T>
+    public class Logger : ILogger
     {
         readonly ILog logger;
 
-        public Logger() : this(LogManager.GetLogger(typeof(T)))
+        public Logger() : this(LogManager.GetLogger(typeof(Logger)))
         {
             
         }
