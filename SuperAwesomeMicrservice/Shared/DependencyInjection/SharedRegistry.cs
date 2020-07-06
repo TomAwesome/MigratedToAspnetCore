@@ -1,4 +1,5 @@
-﻿using StructureMap;
+﻿using AwesomeLogger;
+using StructureMap;
 
 namespace Shared.DependencyInjection
 {
@@ -10,6 +11,7 @@ namespace Shared.DependencyInjection
                 scan.TheCallingAssembly();
                 scan.WithDefaultConventions();
             });
+            For<ILogger>().Use(ctx => new Logger()).Singleton();
         }
     }
 }
