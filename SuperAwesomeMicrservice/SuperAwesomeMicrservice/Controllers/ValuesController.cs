@@ -1,39 +1,38 @@
-﻿using System;
+﻿using Shared.Redis;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
 
 namespace SuperAwesomeMicrservice.Controllers
 {
     public class ValuesController : ApiController
     {
-        // GET api/values
-        public IEnumerable<string> Get()
+        private readonly IRedisWrapper redisWrapper;
+
+        public ValuesController(IRedisWrapper redisWrapper)
         {
-            return new string[] { "value1", "value2" };
+            this.redisWrapper = redisWrapper;
         }
 
         // GET api/values/5
-        public string Get(int id)
+        public async Task<string> Get([FromUri]string id)
         {
-            return "value";
+            var result = await redisWrapper.GetAsync(id);
+            if(string.IsNullOrEmpty(result))
+            {
+                return $"There is no value in redis for this key: {id}";
+            }
+            return result;
         }
 
         // POST api/values
-        public void Post([FromBody] string value)
+        public async Task Post([FromUri]string id, [FromBody] string value)
         {
-        }
-
-        // PUT api/values/5
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/values/5
-        public void Delete(int id)
-        {
+            await redisWrapper.SaveAsync(id, value);
         }
     }
 }
