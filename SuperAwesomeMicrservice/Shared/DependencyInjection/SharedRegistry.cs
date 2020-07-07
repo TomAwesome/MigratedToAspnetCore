@@ -8,7 +8,7 @@ namespace Shared.DependencyInjection
         public SharedRegistry()
         {
             Scan(scan => {
-                scan.TheCallingAssembly();
+                scan.AssemblyContainingType<SharedRegistry>();
                 scan.WithDefaultConventions();
             });
             For<ILogger>().Use(ctx => new Logger()).Singleton();

@@ -1,4 +1,5 @@
-﻿using StackExchange.Redis;
+﻿using Shared.Configuration;
+using StackExchange.Redis;
 using System.Threading.Tasks;
 
 namespace Shared.Redis
@@ -6,9 +7,9 @@ namespace Shared.Redis
     public class RedisWrapper : IRedisWrapper
     {
         IDatabase db;
-        public RedisWrapper()
+        public RedisWrapper(IRedisSettings redisSettings)
         {
-            ConnectionMultiplexer redis = ConnectionMultiplexer.Connect("localhost");
+            ConnectionMultiplexer redis = ConnectionMultiplexer.Connect(redisSettings.RedisAddress);
             db = redis.GetDatabase();
         }
 
