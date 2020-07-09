@@ -27,10 +27,11 @@ namespace SuperAwesomeMicrservice.Controllers
             return result;
         }
 
-        public async Task Post([FromUri]string id, [FromBody] string value)
+        public async Task<IHttpActionResult> Post([FromUri]string id, [FromBody] string value)
         {
             logger.Info($"setting value for key: {id} value: {value}");
             await redisWrapper.SaveAsync(id, value);
+            return Ok();
         }
     }
 }
